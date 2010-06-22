@@ -1,5 +1,18 @@
 <?php
+
+
+/**
+ * LibertyBehavior
+ */
+/**
+ * LibertyBehavior code license:
+ *
+ * @copyright Copyright (C) 2010 saku All rights reserved.
+ * @since CakePHP(tm) v 1.3
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ */
 class LibertyBehavior extends ModelBehavior { 
+    const VERSION = '1.0';
     var $settings = array();
     
     function setup(&$model, $config = array()) { 
@@ -22,10 +35,11 @@ class LibertyBehavior extends ModelBehavior {
         $elementName = sprintf("sql/%s", $elementName);
         
         // エスケープする
+        App::import('Sanitize');
         $escapeParam = array();
         foreach($param as $key=>$value)
         {
-            $escapeParam[$key] = pg_escape_string($value);
+            $escapeParam[$key] = Sanitize::escape($value, $model->useDbConfig);
         }
         
         return $this->getElementString($model, $elementName, $escapeParam, '.sql');
