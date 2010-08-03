@@ -75,7 +75,7 @@ class LibertyBehavior extends ModelBehavior {
      */
     public function getElementString(&$model, $elementName, $param = array(), $ext = ".ctp"){
         $dummy=null;
-        $view = new view($dummy);
+        $view = new view($dummy, false);
         
         $view->ext = $ext;
         $str = $view->element($elementName, $param);
