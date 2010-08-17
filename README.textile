@@ -3,6 +3,7 @@ h1. LibertyBehavior
 h2. getElementString
 
 TestsController
+
 <pre>
 <?php
     /*
@@ -16,12 +17,14 @@ TestsController
 </pre>
 
 element(/app/views/elements/hoge.text)
+
 <pre>
 1．<?php echo $cake; ?>
 2．<?php echo $rails; ?>
 </pre>
 
 result
+
 <pre>
 1．php
 2．ruby
