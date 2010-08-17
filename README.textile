@@ -4,20 +4,25 @@ h2. getElementString
 
 TestsController
 <pre>
+<?php
+    /*
+     * test action
+     */
     function test(){
         $params = array('cake'=>'php', 'rails'=>'ruby');
         echo $this->Test->getElementString('hoge', $params, 'text');
     }
+?>
 </pre>
 
 element(/app/views/elements/hoge.text)
 <pre>
-1．<?php echo $cake; ?> 
-2．<?php echo $rails; ?> 
+1．<?php echo $cake; ?>
+2．<?php echo $rails; ?>
 </pre>
 
 result
 <pre>
-1．php 
-2．ruby 
+1．php
+2．ruby
 </pre>
