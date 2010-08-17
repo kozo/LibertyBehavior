@@ -46,6 +46,7 @@ class LibertyBehavior extends ModelBehavior {
      * 
      * @access private
      * @author kozo
+     * @param  param エレメントに渡すパラメータ(キー：変数名、値：value)
      */
     private function _escape(&$model, $param){
         // エスケープする
