@@ -35,16 +35,42 @@ class LibertyBehavior extends ModelBehavior {
         $elementName = sprintf("sql/%s", $elementName);
         
         // エスケープする
-        App::import('Sanitize');
-        $escapeParam = array();
-        foreach($param as $key=>$value)
-        {
-            $escapeParam[$key] = Sanitize::escape($value, $model->useDbConfig);
-        }
+        $escapeParam = $this->_escape($model, $param);
         
         return $this->getElementString($model, $elementName, $escapeParam, '.sql');
     }
     
+    
+    /**
+     * SQLをエスケープする
+     * 
+     * @access private
+     * @author kozo
+     */
+    private function _escape(&$model, $param){
+        // エスケープする
+        App::import('Sanitize');
+        $escapeParam = array();
+        foreach($param as $key=>$value)
+        {
+            if(is_object($value) || empty($value)){
+                // オブジェクトか空の場合は何も処理しない
+                $escapeParam[$key] = $value;
+                continue;
+            }
+            
+            if(is_array($value)){
+                // 配列の場合は再帰
+                $escapeParam[$key] = $this->_escape($model, $value);
+                continue;
+            }
+            
+            // 通常はエスケープ
+            $escapeParam[$key] = Sanitize::escape($value, $model->useDbConfig);
+        }
+        
+        return $escapeParam;
+    }
     
     /**
      * XMLを取得
