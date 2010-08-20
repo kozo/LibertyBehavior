@@ -35,7 +35,7 @@ class LibertyBehavior extends ModelBehavior {
         $elementName = sprintf("sql/%s", $elementName);
         
         // エスケープする
-        $escapeParam = $this->_escape($model, $param);
+        $escapeParam = $this->_escapeSQL($model, $param);
         
         return $this->getElementString($model, $elementName, $escapeParam, '.sql');
     }
@@ -48,7 +48,7 @@ class LibertyBehavior extends ModelBehavior {
      * @author kozo
      * @param  param エレメントに渡すパラメータ(キー：変数名、値：value)
      */
-    private function _escape(&$model, $param){
+    private function _escapeSQL(&$model, $param){
         // エスケープする
         App::import('Sanitize');
         $escapeParam = array();
@@ -62,7 +62,7 @@ class LibertyBehavior extends ModelBehavior {
             
             if(is_array($value)){
                 // 配列の場合は再帰
-                $escapeParam[$key] = $this->_escape($model, $value);
+                $escapeParam[$key] = $this->_escapeSQL($model, $value);
                 continue;
             }
             
@@ -87,8 +87,43 @@ class LibertyBehavior extends ModelBehavior {
         
         $elementName = sprintf("xml/%s", $elementName);
         
-        return $this->getElementString($model, $elementName, $param, '.xml');
-    }    
+        // エスケープする
+        $escapeParam = $this->_escapeXML($model, $param);
+        
+        return $this->getElementString($model, $elementName, $escapeParam, '.xml');
+    }
+    
+    /**
+     * XMLをエスケープする
+     * 
+     * @access private
+     * @author kozo
+     * @param  param エレメントに渡すパラメータ(キー：変数名、値：value)
+     */
+    private function _escapeXML(&$model, $param){
+        // エスケープする
+        App::import('Sanitize');
+        $escapeParam = array();
+        foreach($param as $key=>$value)
+        {
+            if(is_object($value) || empty($value)){
+                // オブジェクトか空の場合は何も処理しない
+                $escapeParam[$key] = $value;
+                continue;
+            }
+            
+            if(is_array($value)){
+                // 配列の場合は再帰
+                $escapeParam[$key] = $this->_escapeXML($model, $value);
+                continue;
+            }
+            
+            // 通常はエスケープ
+            $escapeParam[$key] = Sanitize::html($value);
+        }
+        
+        return $escapeParam;
+    }
 
     /**
      * elementから文字列を取得する
