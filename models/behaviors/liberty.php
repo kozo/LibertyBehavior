@@ -12,7 +12,7 @@
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 class LibertyBehavior extends ModelBehavior { 
-    const VERSION = '1.0';
+    const VERSION = '1.1';
     var $settings = array();
     
     function setup(&$model, $config = array()) { 
@@ -102,7 +102,6 @@ class LibertyBehavior extends ModelBehavior {
      */
     private function _escapeXML(&$model, $param){
         // エスケープする
-        App::import('Sanitize');
         $escapeParam = array();
         foreach($param as $key=>$value)
         {
@@ -119,7 +118,9 @@ class LibertyBehavior extends ModelBehavior {
             }
             
             // 通常はエスケープ
-            $escapeParam[$key] = Sanitize::html($value);
+            $search = array('<', '>', '&', '"', "'");
+            $replace = array('&lt;', '&gt;', '&amp;', '&quot;', "&apos;");
+            $escapeParam[$key] = str_replace($search, $replace, $value);
         }
         
         return $escapeParam;
