@@ -118,8 +118,8 @@ class LibertyBehavior extends ModelBehavior {
             }
             
             // 通常はエスケープ
-            $search = array('<', '>', '&', '"', "'");
-            $replace = array('&lt;', '&gt;', '&amp;', '&quot;', "&apos;");
+            $search = array('&', '<', '>', '"', "'");
+            $replace = array('&amp;', '&lt;', '&gt;', '&quot;', "&apos;");
             $escapeParam[$key] = str_replace($search, $replace, $value);
         }
         
