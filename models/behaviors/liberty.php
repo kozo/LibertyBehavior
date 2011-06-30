@@ -7,13 +7,14 @@
 /**
  * LibertyBehavior code license:
  *
- * @copyright Copyright (C) 2010 saku All rights reserved.
+ * @copyright Copyright (C) 2010 saku.
  * @since CakePHP(tm) v 1.3
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 class LibertyBehavior extends ModelBehavior { 
-    const VERSION = '1.1';
+    const VERSION = '1.2';
     var $settings = array();
+    var $_helpers = array();
     
     function setup(&$model, $config = array()) { 
         $this->settings = $config;
@@ -125,6 +126,18 @@ class LibertyBehavior extends ModelBehavior {
         
         return $escapeParam;
     }
+    
+  
+    /**
+     * Livertyでヘルパーを使えるようにセットする
+     * 
+     * @access public
+     * @author kozo
+     * @param $helpers ヘルパー名の配列(controllerで指定するものと同じ)
+     */
+    public function setHelpers(&$model, $helpers){
+        $this->_helpers = $helpers;
+    }
 
     /**
      * elementから文字列を取得する
@@ -138,10 +151,27 @@ class LibertyBehavior extends ModelBehavior {
      */
     public function getElementString(&$model, $elementName, $param = array(), $ext = ".ctp"){
         $dummy=null;
-        $view = new view($dummy, false);
+        if(class_exists('View')){
+            $controller = new Controller();
+            $view = new View($controller, false); 
+        }else{
+            App::import('Core', 'view');
+            App::import('Core', 'Controller');
+            $controller = new Controller();
+            $view = new view($controller, false);
+        }
+        
+        if(!empty($this->_helpers)){
+            // ヘルパーを読み込む
+            $view->helpers = $this->_helpers;
+            $loadHelpers = true;
+        }else{
+            // ヘルパーを読み込まない
+            $loadHelpers = false;
+        }
         
         $view->ext = $ext;
-        $str = $view->element($elementName, $param);
+        $str = $view->element($elementName, $param, $loadHelpers);
         
         return $str;
     }
