@@ -6,6 +6,8 @@
  * @copyright Copyright (C) 2010 saku
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+App::uses('Sanitize', 'Utility');
+
 class LibertyBehavior extends ModelBehavior {
     const VERSION = '2.0';
     public $settings = array();
@@ -46,7 +48,6 @@ class LibertyBehavior extends ModelBehavior {
      */
     private function _escapeSQL(&$model, $param){
         // エスケープする
-        App::import('Sanitize');
         $escapeParam = array();
         foreach($param as $key=>$value)
         {
@@ -98,7 +99,6 @@ class LibertyBehavior extends ModelBehavior {
      */
     private function _escapeXML(&$model, $param){
         // エスケープする
-        App::import('Sanitize');
         $escapeParam = array();
         foreach($param as $key=>$value)
         {
