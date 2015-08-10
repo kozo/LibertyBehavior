@@ -1,5 +1,5 @@
 {
-    "name": "kozo/LibertyBehavior",
+    "name": "kozo/liberty-behavior",
     "description": "Liberty plugin for CakePHP",
     "type": "cakephp-plugin",
     "keywords": ["cakephp", "template"],
