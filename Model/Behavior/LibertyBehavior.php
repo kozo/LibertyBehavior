@@ -13,7 +13,7 @@ class LibertyBehavior extends ModelBehavior {
     public $settings = array();
     private $_helpers = array();
 
-    function setup(&$model, $config = array()) {
+    function setup(Model $model, $config = array()) {
         $this->settings = $config;
     }
 
@@ -28,7 +28,7 @@ class LibertyBehavior extends ModelBehavior {
      * @param  elementName エレメント名
      * @param  param エレメントに渡すパラメータ(キー：変数名、値：value)
      */
-    public function getSQL(&$model, $elementName, $param = array()){
+    public function getSQL(Model $model, $elementName, $param = array()){
 
         $elementName = sprintf("sql/%s", $elementName);
 
@@ -46,7 +46,7 @@ class LibertyBehavior extends ModelBehavior {
      * @author kozo
      * @param  param エレメントに渡すパラメータ(キー：変数名、値：value)
      */
-    private function _escapeSQL(&$model, $param){
+    private function _escapeSQL(Model $model, $param){
         // エスケープする
         $escapeParam = array();
         foreach($param as $key=>$value)
@@ -80,7 +80,7 @@ class LibertyBehavior extends ModelBehavior {
      * @param  elementName エレメント名
      * @param  param エレメントに渡すパラメータ(キー：変数名、値：value)
      */
-    public function getXML(&$model, $elementName, $param = array()){
+    public function getXML(Model $model, $elementName, $param = array()){
 
         $elementName = sprintf("xml/%s", $elementName);
 
@@ -97,7 +97,7 @@ class LibertyBehavior extends ModelBehavior {
      * @author kozo
      * @param  param エレメントに渡すパラメータ(キー：変数名、値：value)
      */
-    private function _escapeXML(&$model, $param){
+    private function _escapeXML(Model $model, $param){
         // エスケープする
         $escapeParam = array();
         foreach($param as $key=>$value)
@@ -128,7 +128,7 @@ class LibertyBehavior extends ModelBehavior {
      * @author kozo
      * @param $helpers ヘルパー名の配列(controllerで指定するものと同じ)
      */
-    public function setHelpers(&$model, $helpers){
+    public function setHelpers(Model $model, $helpers){
         $this->_helpers = $helpers;
     }
     
@@ -142,7 +142,7 @@ class LibertyBehavior extends ModelBehavior {
      * @param  ext 拡張子
      * @return
      */
-    public function getElementString(&$model, $elementName, $param = array(), $ext = ".ctp"){
+    public function getElementString(Model $model, $elementName, $param = array(), $ext = ".ctp"){
         $dummy=null;
         if(class_exists('View')){
             $View = new View($dummy); 
