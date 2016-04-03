@@ -1,18 +1,23 @@
 {
-    "name": "kozo/liberty-behavior",
+    "name": "kozo/Liberty",
     "description": "Liberty plugin for CakePHP",
     "type": "cakephp-plugin",
-    "keywords": ["cakephp", "template"],
-    "homepage": "https://github.com/kozo/LibertyBehavior",
-    "license": "MIT",
-    "authors": [
-        {
-                "name": "saku",
-                "homepage": "https://github.com/kozo",
-                "role": "Author"
-            }
-    ],
     "require": {
-        "composer/installers": "*"
+        "php": ">=5.4.16",
+        "cakephp/cakephp": "~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Liberty\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Liberty\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
     }
 }
