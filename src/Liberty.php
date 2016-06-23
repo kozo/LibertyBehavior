@@ -1,10 +1,9 @@
 <?php
-
 namespace Liberty;
 
-use Cake\Network\Exception\InternalErrorException;
 use Cake\Utility\Inflector;
 use Cake\View\ViewBuilder;
+use InvalidArgumentException;
 
 class Liberty
 {
@@ -12,19 +11,20 @@ class Liberty
      * get the result of rendering
      *
      * @access public
+     * @author kozo
      * @author ito
      */
     public static function __callStatic ($name, $arguments)
     {
-        if (
-            (!isset($name) || !is_string($name)) ||
-            (!isset($arguments[0]) || !is_string($arguments[0]))
-        ) {
-            throw new InternalErrorException();
+        if (count($arguments) == 0) {
+            throw new InvalidArgumentException();
+        }
+        if (!is_string($arguments[0]) || (isset($arguments[1]) && !is_array($arguments[1]))) {
+            throw new InvalidArgumentException();
         }
 
         $fileName = $arguments[0];
-        $data     = (isset($arguments[1]) && is_array($arguments[1]))? $arguments[1]: [];
+        $params = isset($arguments[1]) ? $arguments[1] : [];
 
         $builder = new ViewBuilder();
         $view = $builder
@@ -34,7 +34,7 @@ class Liberty
             ->build();
 
         $view->_ext = '.' . $name;
-        $view->viewVars = $data;
+        $view->viewVars = $params;
 
         return $view->render($fileName);
     }
