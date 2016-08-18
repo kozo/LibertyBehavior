@@ -23,10 +23,16 @@ class Liberty
             throw new InvalidArgumentException();
         }
 
-        $fileName = $arguments[0];
+        $fullFileName = $arguments[0];
         $params = isset($arguments[1]) ? $arguments[1] : [];
 
+        list($plugin, $fileName) = pluginSplit($fullFileName);
+
         $builder = new ViewBuilder();
+        if (!is_null($plugin)) {
+            $builder->plugin($plugin);
+        }
+
         $view = $builder
             ->className('Cake\View\View')
             ->templatePath(Inflector::camelize($name))
