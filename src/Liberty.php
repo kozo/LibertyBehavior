@@ -26,6 +26,11 @@ class Liberty
         $fullFileName = $arguments[0];
         $params = isset($arguments[1]) ? $arguments[1] : [];
 
+        $ext = isset($params['ext']) ? $params['ext'] : $name;
+        $helpers = isset($params['helpers']) ? $params['helpers'] : [];
+        unset($params['ext']);
+        unset($params['helpers']);
+
         list($plugin, $fileName) = pluginSplit($fullFileName);
 
         $builder = new ViewBuilder();
@@ -37,9 +42,10 @@ class Liberty
             ->className('Cake\View\View')
             ->templatePath(Inflector::camelize($name))
             ->layout(false)
+            ->setHelpers($helpers)
             ->build();
 
-        $view->_ext = '.' . $name;
+        $view->_ext = '.' . $ext;
         $view->viewVars = $params;
 
         return $view->render($fileName);
