@@ -39,9 +39,9 @@ class Liberty
         }
 
         $view = $builder
-            ->className('Cake\View\View')
-            ->templatePath(Inflector::camelize($name))
-            ->layout(false)
+            ->setClassName('Cake\View\View')
+            ->setTemplatePath(Inflector::camelize($name))
+            ->setLayout(false)
             ->setHelpers($helpers)
             ->build();
 
