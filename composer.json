@@ -3,8 +3,7 @@
     "description": "Liberty plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
-        "php": ">=5.4.16",
-        "cakephp/cakephp": "~3.5"
+        "cakephp/cakephp": "^4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
