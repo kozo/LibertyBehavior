@@ -39,14 +39,14 @@ class Liberty
         }
 
         $view = $builder
-            ->setClassName('Cake\View\View')
+            ->setClassName('Liberty\LibertyView')
             ->setTemplatePath(Inflector::camelize($name))
-            ->setLayout(false)
             ->setHelpers($helpers)
             ->build();
 
-        $view->_ext = '.' . $ext;
-        $view->viewVars = $params;
+        $view->setExtension('.'. $ext);
+        $view->set($params);
+        $view->disableAutoLayout();
 
         return $view->render($fileName);
     }
