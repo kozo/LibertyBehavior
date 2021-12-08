@@ -41,7 +41,7 @@ class Liberty
         $view = $builder
             ->setClassName('Liberty\LibertyView')
             ->setTemplatePath(Inflector::camelize($name))
-            ->setHelpers($helpers)
+            ->addHelpers($helpers)
             ->build();
 
         $view->setExtension('.'. $ext);
