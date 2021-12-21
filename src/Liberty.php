@@ -35,7 +35,7 @@ class Liberty
 
         $builder = new ViewBuilder();
         if (!is_null($plugin)) {
-            $builder->plugin($plugin);
+            $builder->setPlugin($plugin);
         }
 
         $view = $builder
