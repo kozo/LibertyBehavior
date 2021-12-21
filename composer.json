@@ -1,5 +1,5 @@
 {
-    "name": "kozo/Liberty",
+    "name": "kozo/liberty",
     "description": "Liberty plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
