@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Liberty;
 
 use Cake\Utility\Inflector;
@@ -8,13 +10,12 @@ use InvalidArgumentException;
 class Liberty
 {
     /**
-     * get the result of rendering
-     *
-     * @access public
-     * @author kozo
-     * @author ito
+     * @param string $name
+     * @param array $arguments
+     * @return string
+     * @throws \InvalidArgumentException
      */
-    public static function __callStatic ($name, $arguments)
+    public static function __callStatic(string $name, array $arguments): string
     {
         if (count($arguments) == 0) {
             throw new InvalidArgumentException();
@@ -24,14 +25,14 @@ class Liberty
         }
 
         $fullFileName = $arguments[0];
-        $params = isset($arguments[1]) ? $arguments[1] : [];
+        $params = $arguments[1] ?? [];
 
-        $ext = isset($params['ext']) ? $params['ext'] : $name;
-        $helpers = isset($params['helpers']) ? $params['helpers'] : [];
+        $ext = $params['ext'] ?? $name;
+        $helpers = $params['helpers'] ?? [];
         unset($params['ext']);
         unset($params['helpers']);
 
-        list($plugin, $fileName) = pluginSplit($fullFileName);
+        [$plugin, $fileName] = pluginSplit($fullFileName);
 
         $builder = new ViewBuilder();
         if (!is_null($plugin)) {
@@ -44,11 +45,10 @@ class Liberty
             ->addHelpers($helpers)
             ->build();
 
-        $view->setExtension('.'. $ext);
+        $view->setExtension('.' . $ext);
         $view->set($params);
         $view->disableAutoLayout();
 
         return $view->render($fileName);
     }
 }
-
